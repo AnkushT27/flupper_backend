@@ -16,12 +16,22 @@ async function authenticate({ email, password }) {
         const token = jwt.sign({
           email:userDetails.email,
           id:userDetails.id.toString()
-      },'secretkey',{expiresIn:'1h'})
+      },process.env.SECRET_KEY,{expiresIn:'1h'})
           return {token,email:userDetails.email,id:userDetails.id.toString()}
       }
     }
 
 }
 
+async function getUserData({userId}){
+  const userDetails = await User.findById(userId)
+  if(!userDetails){
+    throw new Error('User not found')
+  }
+  else{
+    return {userDetails}
+  }
+}
 
-module.exports = {authenticate}
+
+module.exports = {authenticate,getUserData}

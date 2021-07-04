@@ -4,6 +4,7 @@ const bodyParser = require('body-parser')
 const authRoute = require('./routes/auth')
 const productRoute = require('./routes/product')
 const app = express();
+require('dotenv').config();
 const mongoose = require('mongoose')
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended:true}))
@@ -30,11 +31,11 @@ app.use((err,req,res,next)=>{
   });
 
 
-  mongoose.connect('mongodb+srv://AnkushT27:test@cluster0.t3exm.mongodb.net/flupper_ecomm?retryWrites=true&w=majority',{ useNewUrlParser: true })
+  mongoose.connect(process.env.MONGODB_URI,{ useNewUrlParser: true })
   .then((connected)=>{
       console.log(connected.connections)
       
-      app.listen(3000)
+      app.listen(process.env.PORT)
     
   })
   .catch((err)=>{

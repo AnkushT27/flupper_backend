@@ -11,3 +11,14 @@ exports.login = async (req,res,next)=>{
         next(e)
     }
 }
+
+exports.getUserData = async (req,res,next)=>{
+    let userId = req.params.userId;
+    try{
+        let info = await Registrationservice.getUserData({userId});
+        return res.status(200).json(info);
+    }
+    catch(e){
+        next(e)
+    }
+}
